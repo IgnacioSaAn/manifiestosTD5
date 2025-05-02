@@ -2,6 +2,14 @@
 
 set -e  # Detener en caso de error
 
+#Validamos dependencias
+for cmd in "${DEPENDENCIAS[@]}"; do
+    if ! command -v "$cmd" >/dev/null 2>&1; then
+        echo "Error: '$cmd' no está instalado o no está en el PATH." >&2
+        exit 1
+    fi
+done
+
 # Variables
 WORKDIR="TD5D"
 REPO_MANIFIESTOS="https://github.com/IgnacioSaAn/manifiestosTD5.git"
@@ -78,5 +86,5 @@ echo "$MINIKUBE_IP local.service" | sudo tee -a /etc/hosts > /dev/null
 
 echo "El ingress y la url ya estan habilitados"
 echo "Accediendo a la pagina con el url del ingress http://local.service/"
-xdg-open http://local.service/
 
+xdg-open http://local.service/
