@@ -77,6 +77,6 @@ MINIKUBE_IP=$(minikube ip)
 echo "$MINIKUBE_IP local.service" | sudo tee -a /etc/hosts > /dev/null
 
 echo "El ingress y la url ya estan habilitados"
-echo "Ingrese en el buscador http://local.service/ para poder acceder a la pagina"
+echo "Accediendo a la pagina con el url del ingress http://local.service/"
 
 
