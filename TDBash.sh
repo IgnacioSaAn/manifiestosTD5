@@ -56,3 +56,24 @@ kubectl wait --for=condition=Ready pod/"$POD_NAME" --timeout=400s
 echo "Abriendo el servicio web en el navegador..."
 minikube service static-site-service
 
+# Habilitar ingress
+minikube addons enable ingress
+
+# Esperar a que el controlador de ingress esté listo
+kubectl wait --namespace ingress-nginx \
+  --for=condition=Ready pod \
+  --selector=app.kubernetes.io/component=controller \
+  --timeout=180s
+
+# Aplicar manifiestos de ingress si existe la carpeta
+if [ -d "ingress" ]; then
+    kubectl apply -f ingress
+fi
+
+# Obtener la IP de Minikube
+MINIKUBE_IP=$(minikube ip)
+
+# Agregar entrada a /etc/hosts
+echo "$MINIKUBE_IP local.service" | sudo tee -a /etc/hosts > /dev/null
+
+
